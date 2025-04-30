@@ -5,17 +5,11 @@ import UserModel from "./Models/UserModel.js";
 import bcrypt from "bcrypt";
 import PostModel from "./Models/Posts.js";
 import * as ENV from "./config.js"; 
-
+/*
 const app = express();
 app.use(express.json());
-//Middleware 
-const corsOptions = { 
-  origin: ENV.CLIENT_URL, //client URL local 
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE", 
-  credentials: true, // Enable credentials (cookies, authorization headers, etc.) 
-  }; 
-  app.use(cors(corsOptions));
-//app.use(cors());
+
+app.use(cors());
 
 //Database connection
 //const connectString =
@@ -26,6 +20,26 @@ mongoose.connect(connectString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+*/
+const app = express();
+
+// CORS middleware
+const corsOptions = {
+  origin: ENV.CLIENT_URL,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
+app.use(express.json());
+
+const connectString = `mongodb+srv://${ENV.DB_USER}:${ENV.DB_PASSWORD}@${ENV.DB_CLUSTER}/${ENV.DB_NAME}?retryWrites=true&w=majority`;
+
+// Connect to MongoDB
+mongoose
+  .connect(connectString)
+  .then(() => console.log("✅ MongoDB connected successfully!"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 app.post("/registerUser", async (req, res) => {
   try {
