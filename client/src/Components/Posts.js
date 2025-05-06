@@ -34,7 +34,7 @@ const Posts = () => {
       <Table className="table table-striped">
         <thead>
           <tr>
-            <th>Email</th>
+            <th>Email address</th>
             <th>Post</th>
           </tr>
         </thead>
